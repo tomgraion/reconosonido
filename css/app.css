@@ -8888,19 +8888,4 @@ $ios-transition-box-shadow-end: -200px 0px 200px rgba(0,0,0,0.15), -5px 0px 5px 
   -webkit-transition: none !important;
   transition: none !important; }
 
-.image-list img {
-  width: 200px;
-  height: 200px;
-  float: left;
-  margin: 20px;
-  border-radius: 25px; }
-
-#sound {
-  margin: 0 auto;
-  width: 300px;
-  margin-top: 150px;
-  display: block;
-  background: none;
-  border: none; }
-
 /*# sourceMappingURL=app.css.map */

@@ -18,3 +18,13 @@ app.run(function($ionicPlatform) {
     }
   });
 })
+
+app.config(function($stateProvider) {
+  $stateProvider
+  .state('icons', {
+    url: 'icons/cat/:categoria',
+    templateUrl: 'templates/main.html',
+    controller:'mainView'
+  })
+
+});

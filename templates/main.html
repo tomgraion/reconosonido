@@ -1,0 +1,26 @@
+<ion-view title="About">
+  <ion-content padding="true">
+
+    <!-- / Lista de Imagenes !-->
+    <div class="list image-list row">
+      <div class="col col-20" ng-hide="!icon.show" ng-repeat="icon in icons" ng-click="check_correct(icon.id_par, icon)">
+        <img width="100%" ng-src="{{ img_src+icon.img }}" ng-click=""/>
+      </div>
+    </div>
+    <!-- / Lista de Imagenes !-->
+
+    <!-- / Boton que ejecuta sonidos !-->
+    <div class="row">
+      <div class="col col-33 col-offset-33">
+        <button id="sound" ng-disabled="sound_on" ng-click="play_sound()">
+          <img src="img/sound.jpg" alt="">
+        </button>
+      </div>
+    </div>
+    <!-- / Boton que ejecuta sonidos !-->
+
+  </ion-content>
+</ion-view>
+
+
+
