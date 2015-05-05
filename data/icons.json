@@ -8,7 +8,6 @@
 
           { "title": "Timbre" , "img":"cotidianos/timbre.png" , "url":"sounds/cotidianos/timbre.mp3" ,   "id_categoria": 2, "id_par": 2 , "show": true},
           { "title": "Inodoro" , "img":"cotidianos/inodoro.png" , "url":"sounds/cotidianos/inodoro.mp3" , "id_categoria": 2 , "id_par": 1, "show": true },
-
           { "title": "Puertas" , "img":"cotidianos/puertas_batientes.png" , "url":"sounds/cotidianos/puerta.mp3" , "id_categoria": 2 , "id_par": 4,  "show": true },
           { "title": "Despertador" , "img":"cotidianos/despertador.png", "url":"sounds/cotidianos/despertador.mp3" , "id_categoria": 2, "id_par": 3, "show": true },
           { "title": "Aspiradora" , "img":"cotidianos/aspiradora.png", "url":"sounds/cotidianos/aspiradora.mp3", "id_categoria": 2 , "id_par": 5, "show": true },

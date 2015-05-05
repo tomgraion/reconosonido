@@ -13,6 +13,7 @@ baseServices .factory('Icons', ['$http', '$q', '$filter', '$timeout','Dificultad
             });
 
         return defer.promise;
+
     }
 
     function getByCategoryDificulty(category){
@@ -41,7 +42,6 @@ baseServices .factory('Icons', ['$http', '$q', '$filter', '$timeout','Dificultad
             })
 
         return defer.promise;
-
     }
 
     function save(data) {
@@ -61,7 +61,7 @@ baseServices .factory('Icons', ['$http', '$q', '$filter', '$timeout','Dificultad
         get: get,
         save: save,
         getByCategoryDificulty : getByCategoryDificulty
-    }
+        }
 
   }]);
 
@@ -75,14 +75,12 @@ baseServices .factory('Categorias', ['$http', '$q', '$filter', '$timeout',
             .success(function(advertisers) {
                 defer.resolve(advertisers);
             });
-
-
         return defer.promise;
     }
 
     return {
         getAll: getAll
-    }
+        }
 
 }]);
 
@@ -91,9 +89,7 @@ baseServices .factory('Dificultad', ['$http', '$q', '$filter', '$timeout',
     var selectedDificultad = {};
 
     function getAll(){
-
         var defer = $q.defer();
-
         $http.get('/data/dificultad.json')
             .success(function(dificultad) {
                 defer.resolve(dificultad);
@@ -115,60 +111,96 @@ baseServices .factory('Dificultad', ['$http', '$q', '$filter', '$timeout',
         getAll: getAll,
         setDificultad : setDificultad,
         getDificultad : getDificultad
-    }
+        }
 
-  }]);
+}]);
 
-baseServices.factory('loadMedia', ['$q','$ionicPlatform','$window',
-    function($q, $ionicPlatform, $window){
 
-        function loadMedia(src, onError, onStatus, onStop){
-            var defer = $q.defer();
-            $ionicPlatform.ready(function(){
-              var mediaSuccess = function(){
-                if(onStop){onStop();}
-              };
-              var mediaError = function(err){
-                _logError(src, err);
-                if(onError){onError(err);}
-              };
-              var mediaStatus = function(status){
-                if(onStatus){onStatus(status);}
-              };
+baseServices.factory('Media',['mediaLoader','shuffleArray',
+    function(mediaLoader,shuffleArray){
+        var sounds = {},
+            current_sound = 0,
+            correct_sound = "sounds/correct.mp3",
+            wrong_sound = "sounds/wrong.mp3";
 
-              if($ionicPlatform.is('android')){
-                src = '/android_asset/www/' + src;
-              }
-              defer.resolve(new $window.Media(src, mediaSuccess, mediaError, mediaStatus));
-            });
-            return defer.promise;
-          }
 
-        function _logError(src, err){
-            console.error('media error', {
-              code: err.code,
-              message: getErrorMessage(err.code)
-            });
-          }
+        function setMedias(data){
+            var shuffled = shuffleArray.shuffle(data);
+              sounds = shuffled;
+              resetMedias();
+        }
 
-        function getStatusMessage(status){
-            if(status === 0){return 'Media.MEDIA_NONE';}
-            else if(status === 1){return 'Media.MEDIA_STARTING';}
-            else if(status === 2){return 'Media.MEDIA_RUNNING';}
-            else if(status === 3){return 'Media.MEDIA_PAUSED';}
-            else if(status === 4){return 'Media.MEDIA_STOPPED';}
-            else {return 'Unknown status <'+status+'>';}
-          }
+        function resetMedias (){
+            current_sound = 0;
+        }
 
-        function getErrorMessage(code){
-            if(code === 1){return 'MediaError.MEDIA_ERR_ABORTED';}
-            else if(code === 2){return 'MediaError.MEDIA_ERR_NETWORK';}
-            else if(code === 3){return 'MediaError.MEDIA_ERR_DECODE';}
-            else if(code === 4){return 'MediaError.MEDIA_ERR_NONE_SUPPORTED';}
-            else {return 'Unknown code <'+code+'>';}
-          }
+        function play(){
+            var file = sounds[current_sound].url;
+                mediaLoader.load(file);
+        }
 
+        function checkCorrect(id){
+            if(sounds[current_sound].id_par == id){
+                if(current_sound < sounds.length){
+                    current_sound ++;
+                }
+                mediaLoader.load(correct_sound);
+                return true;
+            }else{
+                mediaLoader.load(wrong_sound);
+                return false;
+            }
+        }
 
         return {
+            setMedias:setMedias,
+            play : play,
+            checkCorrect: checkCorrect
+            }
+    }
+]);
+
+baseServices.factory('mediaLoader', ['$q',
+    function($q){
+
+        //ARREGLAR PARA TABLET Y QUE FRENE SONIDO
+        //var Media = new Media();
+        function load(src){
+            var src;
+            if(ionic.Platform.isAndroid()){
+                src = '/android_asset/www/' + src;
+
+            }else{
+                new Audio(src).play();
+            }
+        }
+
+        return {
+            load:load
+            };
+}]);
+
+baseServices.factory('shuffleArray', [
+
+    function(){
+
+        function shuffle(array) {
+          var m = array.length, t, i;
+          // While there remain elements to shuffle
+          while (m) {
+            // Pick a remaining element…
+            i = Math.floor(Math.random() * m--);
+
+            // And swap it with the current element.
+            t = array[m];
+            array[m] = array[i];
+            array[i] = t;
+          }
+
+          return array;
+        }
+
+        return {
+            shuffle:shuffle
             };
 }])

@@ -19,20 +19,32 @@ baseControllers.controller('iconsList', ['$scope', 'Icons','Categorias','Dificul
 
     $scope.update_selected = function () {
       Dificultad.setDificultad(this.selectedDificultad);
-      console.log(Dificultad.getDificultad());
       }
 
 }]);
 
-baseControllers.controller('mainView', ['$scope', '$stateParams','Icons',
-  function mainView($scope,$stateParams,Icons) {
+baseControllers.controller('mainView', ['$scope', '$stateParams','Icons','Media',
+  function mainView($scope ,$stateParams ,Icons ,Media) {
 
     $scope.img_src = "img/"
+
+    $scope.play_sound = function (){
+        Media.play();
+      };
+
+    $scope.check = function (id,icon){
+        var check = Media.checkCorrect(id)
+        if(check){
+          icon.show = false;
+        }
+      };
 
     Icons.getByCategoryDificulty($stateParams.categoria)
     .then(function (data) {
       $scope.icons = data;
-      });
+      Media.setMedias(data);
+    });
+
 
 }]);
 
