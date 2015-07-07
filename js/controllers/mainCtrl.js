@@ -23,8 +23,8 @@ baseControllers.controller('iconsList', ['$scope', 'Icons','Categorias','Dificul
 
 }]);
 
-baseControllers.controller('mainView', ['$scope', '$stateParams','Icons','Media',
-  function mainView($scope ,$stateParams ,Icons ,Media) {
+baseControllers.controller('mainView', ['$scope', '$stateParams','Icons','Media','shuffleArray',
+  function mainView($scope ,$stateParams ,Icons ,Media,shuffleArray) {
 
     $scope.img_src = "img/"
 
@@ -41,8 +41,12 @@ baseControllers.controller('mainView', ['$scope', '$stateParams','Icons','Media'
 
     Icons.getByCategoryDificulty($stateParams.categoria)
     .then(function (data) {
-      $scope.icons = data;
-      Media.setMedias(data);
+      var duplicated_data = [];
+      $scope.icons = shuffleArray.shuffle(data);
+      $scope.player_show = true;
+      //Copies array and sends it to media
+      angular.copy(data,duplicated_data);
+      Media.setMedias(duplicated_data);
     });
 
 
