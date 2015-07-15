@@ -108,7 +108,7 @@ baseServices .factory('ProperURL', [
 
     function returnURL (url){
       if(ionic.Platform.isAndroid()){
-        url = "/android_asset/www/" + url;
+        url = "file:///android_asset/www/" + url;
       }
       return url;
     }
